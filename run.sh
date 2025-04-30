@@ -1,0 +1,1 @@
+sudo ./kanata -c layermap.kbd

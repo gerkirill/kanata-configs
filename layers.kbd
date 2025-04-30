@@ -1,0 +1,42 @@
+(defcfg 
+  process-unmapped-keys no
+  concurrent-tap-hold yes
+)
+
+(defalias
+  sctrl(tap-hold 200 200 caps lctl)
+  splay (tap-hold 200 200 spc (layer-while-held  extra)) ;; tap: space  hold: extra layer
+  hr_ls(tap-hold 200 200 f lshift)
+  hr_rs(tap-hold 200 200 j lshift)
+  hr_lc(tap-hold 200 200 d lctrl)
+  hr_rc(tap-hold 200 200 k rctrl)
+  raltenter(tap-hold 200 200 enter ralt)
+  rctrbsp(tap-hold 200 200 bspc rctrl)
+)
+
+(defchordsv2
+  (w e) esc 50 all-released ()
+  (i o) bspc 50 all-released ()
+)
+
+(defsrc
+  grv 1 2 3 4 5 6 7 8 9 0 - = bspc
+  tab q w e r t y u i o p [ ] \
+  caps a s d f g h j k l ; ' enter
+  lshift z x c v b n m , . / rshift
+  lctrl lalt spc ralt rctrl)
+
+(deflayer base
+  grv 1 2 3 4 5 6 7 8 9 0 - = bspc
+  tab q w e r t y u i o p [ ] \
+  @sctrl a s @hr_lc @hr_ls g h @hr_rs @hr_rc l ; ' enter
+  lshift z x c v b n m , . / rshift
+  lctrl lalt @splay @raltenter @rctrbsp)
+
+(deflayer extra
+  grv 1 2 3 4 5 6 7 8 9 0 - = bspc
+  tab q w e r t y u i o p [ ] \
+  caps a s _ _ g lft down up rght ; ' enter
+  lshift z x c v b n m , . / rshift
+  lctrl lalt spc ralt rctrl)
+

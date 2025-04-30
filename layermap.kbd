@@ -1,0 +1,73 @@
+;; The source of the HMR mods approach - https://github.com/jtroo/kanata/discussions/1455
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+(defsrc
+)
+
+(deftemplate charmod (char mod)
+  (switch
+    ;; had to disable the line below, not sure how it could be useful
+    ;; ((key-timing 3 less-than 450)) $char break
+    ;; () (tap-hold-release-timeout 200 500 $char $mod $char) break
+    ;; had to increease from 500 to 50000 to be able to hold down shift for a long time, 
+    ;; otherwise it starts emitting the original key after 500ms
+    () (tap-hold-release-timeout  100 50000 $char $mod $char) break
+  )
+)
+
+(deflayermap (main)
+  a (t! charmod a lmet)
+  s (t! charmod s lalt)
+  d (t! charmod d lctl)
+  f (t! charmod f lsft)
+  j (t! charmod j rsft)
+  k (t! charmod k rctl)
+  l (t! charmod l lalt)
+  ; (t! charmod ; rmet)
+  x (t! charmod x ralt)
+  . (t! charmod . ralt)
+  spc (tap-hold 200 200 spc (layer-while-held  extra))
+  ralt (tap-hold 200 200 enter ralt)
+  rctrl(tap-hold 200 200 bspc rctrl)
+  caps (tap-hold 200 200 caps lctl)
+)
+
+(deflayermap (extra)
+  ;; arrows
+  j down
+  k up
+  h lft
+  l rght
+  ;; brackets
+  d S-9
+  e S-0
+  s lbrc
+  w rbrc
+  f S-lbrc
+  r S-rbrc
+  a spc
+  ;; home and end
+  n home
+  m end
+  ;; numrow symbols
+  1 S-1
+  2 S-2
+  3 S-3
+  4 S-4
+  5 S-5
+  6 S-6
+  7 S-7
+  8 S-8
+  9 S-9
+  0 S-0
+  - S--
+  = +
+)
+
+(defchordsv2
+  (w e) esc 50 all-released ()
+  (i o) bspc 50 all-released ()
+)
